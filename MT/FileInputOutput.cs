@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.IO;
+using System.Windows;
 
 namespace MT
 {
@@ -21,17 +22,16 @@ namespace MT
                 File.CreateText(PATH).Dispose();
                 return new BindingList<Task>();
             }
-            using (var reader = File.OpenText(PATH))
+            using (StreamReader reader = File.OpenText(PATH))
             {
                 try
                 {
                     var fileText = reader.ReadToEnd();
-                    BindingList<Task> temp = JsonConvert.DeserializeObject<BindingList<Task>>(fileText);
                     return JsonConvert.DeserializeObject<BindingList<Task>>(fileText);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-
+                    MessageBox.Show(ex.Message);
                     throw;
                 }
 
